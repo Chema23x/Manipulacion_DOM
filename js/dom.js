@@ -30,13 +30,13 @@ function createuser(user){
     document.getElementById('age').textContent = user.age;
     document.getElementById('mail').textContent = user.email;
     
-    const ul = document.getElementById('fav-films');
+    // const ul = document.getElementById('fav-films');    
     
-    user.favFilms.forEach(film => {
-        const li = document.createElement('li');
-        li.textContent = film;
-        ul.appendChild(li);
-    })
+    // user.favFilms.forEach(film => {
+    //     const li = document.createElement('li');
+    //     li.textContent = film;
+    //     ul.appendChild(li);
+    // })
     
 }
 
@@ -129,18 +129,25 @@ const populateElements = (user, userElements) => {
 
 const renderElements = (card, elements) => {
     card.append(elements.user_name, elements.age, elements.description);
-}
 
+    const bandList = document.createElement('ul');
+
+    elements.bands.forEach(bandElement => {
+        const li = document.createElement('li');
+        li.textContent = bandElement.textContent; 
+        bandList.appendChild(li); 
+    });
+
+    card.appendChild(bandList); // 
+}
 users.forEach(user => {
     const card = createCard();
     const userElements = createDescription();
-
     const elementsWithData = populateElements(user, userElements);
     renderElements(card, elementsWithData);
     CARD_SECTION.append(card);
     
 })
-
 
 // EJERCICIO
 // 1. Agregar las bandas
@@ -148,3 +155,30 @@ users.forEach(user => {
 // evitar las bandas para el ejercicio 2
 // 2. Obtener la info del usuario desde inputs y mostrar en tarjetas
 // Al menos debe tener 2 commits -- 17 lineas 
+
+const createUserCard = (user, userElements) => {
+    userElements.user_name.textContent = user.user_name;
+    userElements.age.textContent = user.age;
+    userElements.description.textContent = user.description;
+
+    return userElements;
+
+}
+const nombreUser = document.getElementById('nombre')
+const ageEntrada = document.getElementById('edad');
+const descriptionEntrada = document.getElementById('descripcion');
+    Btn.addEventListener('click', () => {
+    const newUser = {
+        user_name : nombreUser.value,
+        description : descriptionEntrada.value,
+        age : ageEntrada.value
+    }
+    users.push(newUser)
+    const card = createCard();  
+    const userElements = createDescription();
+
+    const elementsWithData = createUserCard(newUser, userElements);
+    renderElements(card, elementsWithData);
+    CARD_SECTION.append(card);
+})
+
